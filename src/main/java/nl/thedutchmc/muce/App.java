@@ -1,11 +1,19 @@
 package nl.thedutchmc.muce;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.PropertySource;
 
 import nl.thedutchmc.muce.database.Database;
@@ -25,7 +33,12 @@ public class App {
     	new App().start();
     	
     	//Start the Spring boot webserver
-		SpringApplication.run(App.class, args);
+    	new SpringApplicationBuilder(App.class)
+    		.bannerMode(Banner.Mode.OFF)
+    		.logStartupInfo(false)
+    		.run(args);
+    	
+    	App.logInfo("Startup complete.");
     }
     
     /**
@@ -62,6 +75,36 @@ public class App {
     public static Docker getDocker() {
     	return App.docker;
     }
+    
+	/**
+	 * Save a resource from inside the JAR to a directory
+	 * @param name The name of the resource to save
+	 * @param targetPath The path to save the resource to
+	 */
+	public static void saveResource(String name, String targetPath) {
+		InputStream in = null;
+		
+		try {
+			in = App.class.getResourceAsStream("/" + name);
+			
+			if(name == null) {
+				throw new FileNotFoundException("Cannot find file " + name + " in jar!");
+			}
+			
+			if(in == null) {
+				throw new FileNotFoundException("Cannot find file " + name + " in jar!");
+			}
+			
+			Path exportPath = Paths.get(targetPath + File.separator + name);
+			Files.copy(in, exportPath);
+		} catch (FileNotFoundException e) {
+			App.logError("A FileNotFoundException was thrown whilst trying to save " + name + ". Use --debug for more details.");
+			App.logError(Utils.getStackTrace(e));
+		} catch (IOException e) {
+			App.logError("An IOException was thrown whilst trying to save " + name + ". Use --debug for more details.");
+			App.logError(Utils.getStackTrace(e));
+		}
+	}
     
 	/**
 	 * Log an Object with log level ERROR

@@ -60,7 +60,7 @@ public class Docker {
 				+ "-l \"traefik.http.services.muce-code-USERID.loadbalancer.server.port=8443\" " //Port is 8443
 				+ "-l \"traefik.docker.network=muce-traefik\" "
 				+ "--network=muce-traefik "
-				+ "muce-code:latest";
+				+ "linuxserver/code-server";
 		
 		//Replace 'variables' in the command
 		// USERID: 		The fakeUserId of the user

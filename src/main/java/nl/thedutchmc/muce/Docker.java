@@ -50,7 +50,7 @@ public class Docker {
 				+ "-e PUID=1000 "
 				+ "-e PGID=1000 "
 				+ "-e TZ=Europe/London "
-				+ "-v /opt/muce/code/USERID/config:/config"
+				+ "-v /opt/muce/code/USERID/config:/config "
 				+ "-l \"traefik.enable=true\" "
 				+ "-l \"traefik.http.routers.muce-code-USERID.rule=PathPrefix(\\`/workspace/USERID\\`)\" " //Path prefix of the container is /workspace/USERID/
 				+ "-l \"traefik.http.routers.muce-code-USERID.entrypoints=web\" " //Using web entry point

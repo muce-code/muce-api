@@ -1,14 +1,9 @@
 package nl.thedutchmc.muce;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import org.json.JSONObject;
 
 import nl.thedutchmc.muce.types.Pair;
 
@@ -28,20 +23,9 @@ public class Docker {
 			userDir.mkdirs();
 		}
 		
-		JSONObject configFileContent = new JSONObject();
-		configFileContent.put("terminal.integrated.shell.linux", "/bin/bash");
-		configFileContent.put("workbench.colorTheme", "Default Dark+");
-		
 		File configFile = new File(userDir, "settings.json");
-		
-		System.out.println(configFile.getAbsolutePath());
-		try {
-		    BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
-		    writer.write(configFileContent.toString());
-		    writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
+		if(!configFile.exists()) {
+			App.saveResource("settings.json", userDir.getAbsolutePath());
 		}
 		
 		//The docker command required to start the container

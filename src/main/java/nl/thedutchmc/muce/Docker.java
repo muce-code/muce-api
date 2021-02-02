@@ -37,20 +37,13 @@ public class Docker {
 	 */
 	public boolean createContainer(String fakeUserId) throws IOException {
 		
-		//Get the user directory for the supplied user. If it does not exist, create it
-		File muceUserDir = new File(this.muceCodeDir + File.separator + fakeUserId + File.separator + "config");
-		if(!muceUserDir.exists()) {
-			muceUserDir.mkdirs();
-			muceUserDir.setWritable(true, false);
-		}
-		
 		//The docker command required to start the container
 		String dockerCommand = "docker run -d "
 				+ "--name=muce-code-USERID "
 				+ "-e PUID=1000 "
 				+ "-e PGID=1000 "
 				+ "-e TZ=Europe/London "
-				+ "-v /opt/muce/code/USERID/config:/config "
+				+ "-v /opt/muce/data/USERID/config:/config "
 				+ "-l \"traefik.enable=true\" "
 				+ "-l \"traefik.http.routers.muce-code-USERID.rule=PathPrefix(\\`/workspace/USERID\\`)\" " //Path prefix of the container is /workspace/USERID/
 				+ "-l \"traefik.http.routers.muce-code-USERID.entrypoints=web\" " //Using web entry point

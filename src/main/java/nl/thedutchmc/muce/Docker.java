@@ -1,8 +1,10 @@
 package nl.thedutchmc.muce;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -32,11 +34,9 @@ public class Docker {
 		
 		File configFile = new File(userDir, "settings.json");
 		try {
-			FileOutputStream fos = new FileOutputStream(configFile);
-			fos.write(configFileContent.toString().getBytes());
-			
-			fos.flush();
-			fos.close();
+		    BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
+		    writer.write(configFileContent.toString());
+		    writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

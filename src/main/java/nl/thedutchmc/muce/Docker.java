@@ -18,14 +18,6 @@ public class Docker {
 	 */
 	public Docker(String mucePath) {
 		this.mucePath = mucePath;
-	
-		//Get the muce code directory, this is `mucePath/code`
-		this.muceCodeDir = new File(this.mucePath + File.separator + "code");
-		
-		//Check if the code directory exists, if not create it
-		if(!this.muceCodeDir.exists()) {
-			muceCodeDir.mkdirs();
-		}
 	}
 	
 	/**
@@ -36,6 +28,11 @@ public class Docker {
 	 * @throws IOException
 	 */
 	public boolean createContainer(String fakeUserId) throws IOException {
+		
+		File userDir = new File("/opt/muce/data/" + fakeUserId + "/config/data");
+		if(!userDir.exists()) {
+			userDir.mkdirs();
+		}
 		
 		//The docker command required to start the container
 		String dockerCommand = "docker run -d "

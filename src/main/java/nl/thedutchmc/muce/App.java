@@ -51,7 +51,7 @@ public class App {
     	config.read();
     	
     	//Create an instance of the Docker class
-    	docker = new Docker((String) config.getConfigValue("mucepath"));
+    	docker = new Docker();
     	
     	//Initialize the connection to the database
     	database = new Database(

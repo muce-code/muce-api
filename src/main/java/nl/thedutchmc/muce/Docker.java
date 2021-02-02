@@ -2,23 +2,15 @@ package nl.thedutchmc.muce;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import org.json.JSONObject;
 
 import nl.thedutchmc.muce.types.Pair;
 
 public class Docker {
-
-	private String mucePath;
-	private File muceCodeDir;
-	
-	/**
-	 * Create an instance of this class
-	 * @param mucePath The base path of Muce
-	 */
-	public Docker(String mucePath) {
-		this.mucePath = mucePath;
-	}
 	
 	/**
 	 * Create a Docker container for a user<br>
@@ -29,9 +21,25 @@ public class Docker {
 	 */
 	public boolean createContainer(String fakeUserId) throws IOException {
 		
-		File userDir = new File("/opt/muce/data/" + fakeUserId + "/config/data");
+		File userDir = new File("/opt/muce/data/" + fakeUserId + "/config/data/User");
 		if(!userDir.exists()) {
 			userDir.mkdirs();
+		}
+		
+		JSONObject configFileContent = new JSONObject();
+		configFileContent.put("terminal.integrated.shell.linux", "/bin/bash");
+		configFileContent.put("workbench.colorTheme", "Default Dark+");
+		
+		File configFile = new File(userDir, "settings.json");
+		try {
+			FileOutputStream fos = new FileOutputStream(configFile);
+			fos.write(configFileContent.toString().getBytes());
+			
+			fos.flush();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
 		
 		//The docker command required to start the container
@@ -54,9 +62,7 @@ public class Docker {
 		
 		//Replace 'variables' in the command
 		// USERID: 		The fakeUserId of the user
-		// MUCEPATH: 	The path to the user folder
 		dockerCommand = dockerCommand.replace("USERID", fakeUserId);
-		dockerCommand = dockerCommand.replace("MUCEPATH", this.mucePath);
 				
 		System.out.println(dockerCommand);
 		

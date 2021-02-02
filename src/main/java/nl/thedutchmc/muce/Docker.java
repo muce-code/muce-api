@@ -33,6 +33,8 @@ public class Docker {
 		configFileContent.put("workbench.colorTheme", "Default Dark+");
 		
 		File configFile = new File(userDir, "settings.json");
+		
+		System.out.println(configFile.getAbsolutePath());
 		try {
 		    BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
 		    writer.write(configFileContent.toString());

@@ -22,7 +22,7 @@ import nl.thedutchmc.muce.types.Pair;
 @RequestMapping("/muce")
 public class PostController {
 
-	@CrossOrigin(origins = {"https://muce.apps.thedutchmc.nl", "http://localhost", "https://muce-code.github.io"})
+	@CrossOrigin(origins = {"*"})
 	@RequestMapping(value = "logout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String logoutUser(@RequestParam String userId, @RequestParam String sessionId) {
 		Database db = App.getDatabase();
@@ -88,7 +88,7 @@ public class PostController {
 	 *		<tr>
 	 *	</table>
 	 */
-	@CrossOrigin(origins = {"https://muce.apps.thedutchmc.nl", "http://localhost", "https://muce-code.github.io"})
+	@CrossOrigin(origins = {"*"})
 	@RequestMapping(value = "user", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getUserEmail(@RequestParam String userId, @RequestParam String sessionId) {
 		Database db = App.getDatabase();
@@ -146,7 +146,7 @@ public class PostController {
 	 * 		</tr>
 	 * 	</table>
 	 */
-	@CrossOrigin(origins = {"https://muce.apps.thedutchmc.nl", "http://localhost", "https://muce-code.github.io"})
+	@CrossOrigin(origins = {"*"})
 	@RequestMapping(value = "container", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String createContainer(@RequestParam String userId, @RequestParam String sessionId) {
 		Database db = App.getDatabase();
@@ -231,7 +231,7 @@ public class PostController {
 	 * 		</tr>
 	 * 	</table>
 	 */
-	@CrossOrigin(origins = {"https://muce.apps.thedutchmc.nl", "http://localhost", "https://muce-code.github.io"})
+	@CrossOrigin(origins = {"*"})
 	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String registerUser(@RequestParam String email, @RequestParam String password) {
 		Database db = App.getDatabase();
@@ -318,7 +318,7 @@ public class PostController {
 	 * 		</tr>
 	 *	</table>
 	 */
-	@CrossOrigin(origins = {"https://muce.apps.thedutchmc.nl", "http://localhost", "https://muce-code.github.io"})
+	@CrossOrigin(origins = {"*"})
 	@RequestMapping(value = "login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String loginUser(@RequestParam String email, @RequestParam String password) {
 		Database db = App.getDatabase();
